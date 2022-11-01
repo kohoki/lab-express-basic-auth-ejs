@@ -6,7 +6,13 @@ const userSchema = new Schema({
     type: String,
     trim: true,
     required: true,
-    unique: true
+    unique: true,
+    validate: {
+      validator: function (v) {
+        return v.length > 3
+      },
+      message: props => `You username is too short, only ${props.value.length} characters long`,
+    },
   },
   password: {
     type: String,

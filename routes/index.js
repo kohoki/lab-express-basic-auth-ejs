@@ -34,6 +34,7 @@ router.get('/login', (req, res) => {
 router.post('/login', async (req, res) => {
   const { username, password } = req.body
   const currentUser = await User.findOne({ username })
+  console.log(currentUser);
   if (!currentUser) {
     // What to do if I don't have a user with this username
     res.render('login', { errorMessage: 'No user with this username', isConnected: false })
@@ -50,6 +51,15 @@ router.post('/login', async (req, res) => {
       // What to do if I have a user and an incorrect password
       res.render('login', { errorMessage: 'Incorrect password !!!', isConnected: false })
     }
+  }
+})
+
+router.get('/profile', (req, res) => {
+  console.log('SESSION =====> ', req.session)
+  if (req.session.user) {
+    res.render('profile', { user: req.session.user, isConnected: true })
+  } else {
+    res.redirect('/login')
   }
 })
 
